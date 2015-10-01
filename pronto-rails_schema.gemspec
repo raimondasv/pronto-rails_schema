@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Pronto runner for detection of Rails schema changes.}
   spec.description   = %q{Detects migration files and checks for changes in
     schema.rb or structure.sql files}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/raimondasv/pronto-schema_check"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency 'pronto', '~> 0.4.3'
+  spec.add_dependency 'pronto', '~> 0.4.0'
   spec.add_development_dependency "bundler", "~> 1.10"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec"
