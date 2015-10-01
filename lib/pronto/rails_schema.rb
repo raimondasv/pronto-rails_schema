@@ -14,9 +14,10 @@ module Pronto
         return generate_messages_for(migration_patches, 'schema.rb') unless changes_detected?(schema_patch)
       end
 
-      # structure_patch = patches.find { |patch| detect_structure_file(patch.new_file_full_path) }
-      # puts "A" unless changes_detected?(structure_patch)
-      # return generate_messages_for(migration_patches, 'structure.sql') unless changes_detected?(structure_patch)
+      if structure_file_present?
+        structure_patch = patches.find { |patch| detect_structure_file(patch.new_file_full_path) }
+        return generate_messages_for(migration_patches, 'structure.sql') unless changes_detected?(structure_patch)
+      end
       []
     end
 
