@@ -1,5 +1,4 @@
 require 'pronto'
-require "pronto/rails_schema/version"
 
 module Pronto
   class RailsSchema < Runner
@@ -10,15 +9,26 @@ module Pronto
         .select { |patch| detect_added_migration_file(patch) }
       return [] unless migration_patches.any?
 
-      schema_patch = patches.find { |patch| detect_schema_file(patch.new_file_full_path) }
-      return generate_messages_for(migration_patches, 'schema.rb') unless changes_detected?(schema_patch)
+      if schema_file_present?
+        schema_patch = patches.find { |patch| detect_schema_file(patch.new_file_full_path) }
+        return generate_messages_for(migration_patches, 'schema.rb') unless changes_detected?(schema_patch)
+      end
 
-      structure_patch = patches.find { |patch| detect_structure_file(patch.new_file_full_path) }
-      return generate_messages_for(migration_patches, 'structure.sql') unless changes_detected?(structure_patch)
+      # structure_patch = patches.find { |patch| detect_structure_file(patch.new_file_full_path) }
+      # puts "A" unless changes_detected?(structure_patch)
+      # return generate_messages_for(migration_patches, 'structure.sql') unless changes_detected?(structure_patch)
       []
     end
 
     private
+
+    def schema_file_present?
+      File.exist?('db/schema.rb')
+    end
+
+    def structure_file_present?
+      File.exists?('db/structure.sql')
+    end
 
     def generate_messages_for(patches, target)
       patches.map do |patch|

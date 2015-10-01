@@ -1,0 +1,6 @@
+0000000000000000000000000000000000000000 7e2f4ef7fde653c7d96e12cf4a909198a72801e9 Raimondas Valickas <raimondas@vinted.com> 1443695420 +0300	commit: Schema commit
+7e2f4ef7fde653c7d96e12cf4a909198a72801e9 27be4d9a6f63bf8ccf515d4b32d3f230d0c34613 Raimondas Valickas <raimondas@vinted.com> 1443695824 +0300	commit: Second migration
+27be4d9a6f63bf8ccf515d4b32d3f230d0c34613 4618a01a062aa18aeb205b250004acd1468a6867 Raimondas Valickas <raimondas@vinted.com> 1443698191 +0300	commit: Migration, but no schema commit
+4618a01a062aa18aeb205b250004acd1468a6867 86140aca1514d3293d0b9f078b85c5d07cd8d746 Raimondas Valickas <raimondas@vinted.com> 1443701058 +0300	commit: Adding non migration ruby file
+86140aca1514d3293d0b9f078b85c5d07cd8d746 bfa1f090c1644f2e1bd6ae5433b1e0e21a9399b7 Raimondas Valickas <raimondas@vinted.com> 1443701103 +0300	commit (amend): Adding non migration ruby file
+bfa1f090c1644f2e1bd6ae5433b1e0e21a9399b7 ba4a14861b8d17dab45ba709ae6dd7c5fd47b55a Raimondas Valickas <raimondas@vinted.com> 1443701128 +0300	commit (amend): Adding non migration ruby file

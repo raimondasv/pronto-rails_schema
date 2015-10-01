@@ -6,6 +6,11 @@ describe Pronto::RailsSchema do
   end
 
   subject { described_class.new.run(patches, nil) }
+  let(:schema_present) { true }
+
+  before do
+    allow(File).to receive(:exist?).with('db/schema.rb').and_return(schema_present)
+  end
 
   context 'with no patches' do
     let(:patches) { nil }
@@ -14,7 +19,7 @@ describe Pronto::RailsSchema do
     end
   end
 
-  context 'with patch but without migration' do
+  context 'with patch but without migration files' do
     include_context 'test repo'
     let(:patches) { repo.diff('4618a01a062aa18aeb205b250004acd1468a6867') }
 
@@ -38,6 +43,14 @@ describe Pronto::RailsSchema do
 
       it 'adds warning message' do
         expect(subject.first.msg).to match(/Migration/)
+      end
+
+      context 'without schema file' do
+        let(:schema_present) { false }
+
+        it 'adds no messages' do
+          expect(subject.count).to eq 0
+        end
       end
     end
   end
