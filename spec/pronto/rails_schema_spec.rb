@@ -5,7 +5,7 @@ describe Pronto::RailsSchema do
     expect(Pronto::RailsSchemaVersion::VERSION).not_to be nil
   end
 
-  subject { described_class.new.run(patches, nil) }
+  subject { described_class.new(patches, nil).run }
   let(:schema_present) { true }
 
   before do
