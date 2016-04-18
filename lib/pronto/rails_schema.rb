@@ -2,22 +2,19 @@ require 'pronto'
 
 module Pronto
   class RailsSchema < Runner
-    def run(patches, _)
-      return [] unless patches
-
-      migration_patches = patches
-        .select { |patch| detect_added_migration_file(patch) }
+    def run
       return [] unless migration_patches.any?
 
       if schema_file_present?
-        schema_patch = patches.find { |patch| detect_schema_file(patch.new_file_full_path) }
-        return generate_messages_for(migration_patches, 'schema.rb') unless changes_detected?(schema_patch)
+        schema_patch = @patches.find { |patch| detect_schema_file(patch.new_file_full_path) }
+        return generate_messages_for('schema.rb') unless changes_detected?(schema_patch)
       end
 
       if structure_file_present?
-        structure_patch = patches.find { |patch| detect_structure_file(patch.new_file_full_path) }
-        return generate_messages_for(migration_patches, 'structure.sql') unless changes_detected?(structure_patch)
+        structure_patch = @patches.find { |patch| detect_structure_file(patch.new_file_full_path) }
+        return generate_messages_for('structure.sql') unless changes_detected?(structure_patch)
       end
+
       []
     end
 
@@ -31,10 +28,17 @@ module Pronto
       File.exists?('db/structure.sql')
     end
 
-    def generate_messages_for(patches, target)
-      patches.map do |patch|
+    def migration_patches
+      return [] unless @patches
+      @migration_patches ||= @patches
+        .select { |patch| detect_added_migration_file(patch) }
+    end
+
+    def generate_messages_for(target)
+      migration_patches.map do |patch|
         Message.new(patch.delta.new_file[:path], nil, :warning,
-          "Migration file detected, but no changes in #{target}")
+          "Migration file detected, but no changes in #{target}",
+          nil, self.class)
       end
     end
 
