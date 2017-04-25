@@ -9,6 +9,7 @@ describe Pronto::RailsSchema do
   let(:schema_present) { true }
 
   before do
+    allow(File).to receive(:exist?).and_return(false)
     allow(File).to receive(:exist?).with('db/schema.rb').and_return(schema_present)
   end
 
