@@ -46,6 +46,11 @@ describe Pronto::RailsSchema do
         expect(subject.first.msg).to match(/Migration/)
       end
 
+      it 'adds warning message with line containing the commit_sha of migration file creation commit' do
+        expect(subject.first.line.content).to match(/class ThatMigration/)
+        expect(subject.first.line.commit_sha).to eq '4618a01a062aa18aeb205b250004acd1468a6867'
+      end
+
       context 'without schema file' do
         let(:schema_present) { false }
 
