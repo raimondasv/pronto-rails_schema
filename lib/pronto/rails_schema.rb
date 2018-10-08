@@ -3,18 +3,23 @@ require 'pronto'
 module Pronto
   class RailsSchema < Runner
     def run
-      return [] unless migration_patches.any?
+      if migration_patches.any?
+        if schema_file_present?
+          return generate_messages_for('schema.rb') unless changes_detected?(schema_patch)
+        end
 
-      if schema_file_present?
-        schema_patch = @patches.find { |patch| detect_schema_file(patch.new_file_full_path) }
-        return generate_messages_for('schema.rb') unless changes_detected?(schema_patch)
+        if structure_file_present?
+          return generate_messages_for('structure.sql') unless changes_detected?(structure_patch)
+        end
+      else
+        if schema_file_present?
+          return generate_messages_for('schema.rb', schema_patch) unless changes_detected?(schema_patch)
+        end
+
+        if structure_file_present?
+          return generate_messages_for('structure.sql', structure_patch) unless changes_detected?(structure_patch)
+        end
       end
-
-      if structure_file_present?
-        structure_patch = @patches.find { |patch| detect_structure_file(patch.new_file_full_path) }
-        return generate_messages_for('structure.sql') unless changes_detected?(structure_patch)
-      end
-
       []
     end
 
@@ -43,6 +48,13 @@ module Pronto
       end
     end
 
+    def generate_message_for(target, patch)
+      first_line = patch.added_lines.first
+      Message.new(patch.delta.new_file[:path], first_line, :warning,
+        "There are no added migration file, but something changes in #{target}",
+nil, self.class)
+    end
+
     def detect_added_migration_file(patch)
       return unless patch.delta.added?
       /(.*)db[\\|\/]migrate[\\|\/](\d{14}_([_A-Za-z]+)\.rb)$/i =~ patch.delta.new_file[:path]
@@ -58,6 +70,14 @@ module Pronto
 
     def detect_structure_file(path)
       /db[\\|\/]structure.sql/i =~ path.to_s
+    end
+
+    def schema_patch
+      @patches.find { |patch| detect_schema_file(patch.new_file_full_path) }
+    end
+
+    def structure_patch
+      @patches.find { |patch| detect_structure_file(patch.new_file_full_path) }
     end
   end
 end
