@@ -13,11 +13,11 @@ module Pronto
         end
       else
         if schema_file_present?
-          return generate_messages_for('schema.rb', schema_patch) unless changes_detected?(schema_patch)
+          return generate_message_for('schema.rb', schema_patch) unless changes_detected?(schema_patch)
         end
 
         if structure_file_present?
-          return generate_messages_for('structure.sql', structure_patch) unless changes_detected?(structure_patch)
+          return generate_message_for('structure.sql', structure_patch) unless changes_detected?(structure_patch)
         end
       end
       []
