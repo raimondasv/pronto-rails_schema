@@ -41,7 +41,7 @@ module Pronto
 
     def generate_messages_for(target)
       migration_patches.map do |patch|
-        first_line = patch.added_lines.first
+        first_line = patch.lines.first
         Message.new(patch.delta.new_file[:path], first_line, :warning,
                   "Migration file detected, but no changes in #{target}",
           nil, self.class)
@@ -49,7 +49,7 @@ module Pronto
     end
 
     def generate_message_for(target, patch)
-      first_line = patch.added_lines.first
+      first_line = patch.lines.first
       Message.new(patch.delta.new_file[:path], first_line, :warning,
         "There are no added migration file, but something changes in #{target}",
 nil, self.class)
