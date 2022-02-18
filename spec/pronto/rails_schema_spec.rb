@@ -1,11 +1,8 @@
 require 'spec_helper'
 
 describe Pronto::RailsSchema do
-  it 'has a version number' do
-    expect(Pronto::RailsSchemaVersion::VERSION).not_to be nil
-  end
-
   subject { described_class.new(patches, nil).run }
+
   let(:schema_present) { true }
 
   before do
@@ -13,8 +10,13 @@ describe Pronto::RailsSchema do
     allow(File).to receive(:exist?).with('db/schema.rb').and_return(schema_present)
   end
 
+  it 'has a version number' do
+    expect(Pronto::RailsSchemaVersion::VERSION).not_to be nil
+  end
+
   context 'with no patches' do
     let(:patches) { nil }
+
     it 'adds no messages' do
       expect(subject.count).to eq 0
     end
