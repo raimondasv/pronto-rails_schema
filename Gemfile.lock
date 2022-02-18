@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    pronto-rails_schema (0.10.0)
-      pronto (~> 0.11.0)
+    pronto-rails_schema (0.11.0)
+      pronto (>= 0.10, < 0.12)
 
 GEM
   remote: https://rubygems.org/
