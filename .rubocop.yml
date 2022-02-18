@@ -1,0 +1,10 @@
+require:
+  - rubocop-rspec
+  - rubocop-performance
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*.rb
+
+RSpec/NestedGroups:
+  Enabled: false
