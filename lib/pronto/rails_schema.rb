@@ -3,6 +3,7 @@
 require 'pronto'
 
 module Pronto
+  # Pronto runner
   class RailsSchema < Runner
     def run
       return [] unless migration_patches.any?
